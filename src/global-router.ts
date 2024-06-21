@@ -1,14 +1,7 @@
 import { Router } from 'express';
-import userRouter from './user/user-router';
-import gptRouter from './gpt/gpt-router';
-// other routers can be imported here
-
+import chatRouter from './chat/chat.router'
 const globalRouter = Router();
 
-// Use the userRouter for user-related routes
-globalRouter.use(userRouter);
-globalRouter.use(gptRouter);
-
-// other routers can be added here
+globalRouter.use('/chat', chatRouter);
 
 export default globalRouter;
