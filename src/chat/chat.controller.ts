@@ -1,5 +1,6 @@
 import ChatApp from "./chat.service";
 import { io } from "../websocket/websocket";
+import { Request, Response } from "express";
 
 class chatappController {
   private chatappService: ChatApp;
@@ -24,6 +25,19 @@ class chatappController {
       console.log(error);
       socket.emit('error', error.message); 
     }
+  }
+
+
+  async getAllConservations(req:Request, res:Response) {
+    try {
+      const conservations = await this.chatappService.getAllConservations();
+      res.status(200).json(conservations);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  async addNewConservation(req:Request, res:Response) {
+    const conservation = this.chatappService.addNewConservation()
   }
 }
 
