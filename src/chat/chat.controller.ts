@@ -26,19 +26,6 @@ class chatappController {
       socket.emit('error', error.message); 
     }
   }
-
-
-  async getAllConservations(req:Request, res:Response) {
-    try {
-      const conservations = await this.chatappService.getAllConservations();
-      res.status(200).json(conservations);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-  async addNewConservation(req:Request, res:Response) {
-    const conservation = this.chatappService.addNewConservation()
-  }
 }
 
 export default chatappController;

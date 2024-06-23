@@ -1,6 +1,7 @@
 import { GenerateContentStreamResult } from "@google/generative-ai";
 import chat from "../gemini";
 import { CustomGenerateContentResult } from "./chat.types";
+import { Request, Response } from "express";
 import Conservation from "./models/Conservation";
 
 class ChatApp {
@@ -8,30 +9,20 @@ class ChatApp {
     const response = await chat.sendMessageStream(message);
     return response;
   }
-  async getAllConservations(){
-    const conservations = await Conservation.find();
-    return conservations;
-  }
+  async createConversation (req:Request, res:Response) {
 
-  async addNewConservation(id:string) {
-    try {
-      const conservation = new Conservation({ id: id, messages: [] });
-      await conservation.save();
-      return conservation;
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    }
+    const message = req.body.message
+    const messagesMongo = new Conservation({messages: []})
+    const id = messagesMongo.id
+    console.log(id)
+    messagesMongo.save()
+    await res.set('id', id)
   }
+  async saveMessages(req: Request, res: Response) {
+    const id = req.body.id
+    const message = req.body.message
 
-  async getConservationById(id:string) {
-    try {
-      const conservation = await Conservation.findOne({ id: id });
-      return conservation;
-    } catch (error: any) {
-      console.log(error);
-      return null;
-    } 
+    await Conservation.findByIdAndUpdate(id, {messages: message})
   }
 }
 

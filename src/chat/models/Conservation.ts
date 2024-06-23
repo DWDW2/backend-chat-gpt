@@ -6,8 +6,12 @@ export interface Conservation extends Document {
 }
 
 const ConservationSchema = new Schema({
-  id: { type: Number, required: true },
-  messages: { type: [String], required: true },
+  messages: [
+    {
+      sent: {type: String},
+      message:{type:String}
+    }
+  ]
 });
 const Conservation = mongoose.model('Conservation', ConservationSchema);
 
